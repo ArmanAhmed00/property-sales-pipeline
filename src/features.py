@@ -7,7 +7,7 @@ from .dvf_utils import PROCESSED_DIR, TABLES_DIR, ensure_project_dirs
 
 
 def iqr_bounds(series: pd.Series, multiplier: float = 1.5) -> tuple[float, float]:
-    """Calculates the lower and upper bounds using the IQR rule."""
+   
     q1 = series.quantile(0.25)
     q3 = series.quantile(0.75)
     iqr = q3 - q1
@@ -15,7 +15,7 @@ def iqr_bounds(series: pd.Series, multiplier: float = 1.5) -> tuple[float, float
 
 
 def mark_outliers(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Appends binary flag columns indicating IQR outliers for key metrics."""
+    
     result = df.copy()
     rows = []
     for column in ["valeur_fonciere", "price_per_m2"]:
@@ -38,7 +38,7 @@ def mark_outliers(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def add_features(df: pd.DataFrame) -> pd.DataFrame:
-    """Engineers date, department, property types, and ratio features."""
+    
     featured = df.copy()
 
     # Temporal extractions
@@ -56,7 +56,7 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
     if "type_local" in featured.columns:
         featured["property_type"] = featured["type_local"].fillna("Unknown").astype("string")
 
-    # Real estate financial engineering metrics
+    
     if {"valeur_fonciere", "surface_reelle_bati"}.issubset(featured.columns):
         surface = pd.to_numeric(featured["surface_reelle_bati"], errors="coerce")
         value = pd.to_numeric(featured["valeur_fonciere"], errors="coerce")
@@ -74,7 +74,7 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def feature_summary(df: pd.DataFrame) -> pd.DataFrame:
-    """Generates structural and distribution statistics for engineered features."""
+    
     rows = []
     target_cols = ["year", "month", "quarter", "department", "property_type", "price_per_m2", "built_to_land_ratio"]
     for column in target_cols:
@@ -91,7 +91,7 @@ def feature_summary(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def save_feature_outputs(df: pd.DataFrame) -> pd.DataFrame:
-    """Main execution step to apply features, identify outliers, and save summaries."""
+    
     ensure_project_dirs()
     
     # Generate features & tag outliers
