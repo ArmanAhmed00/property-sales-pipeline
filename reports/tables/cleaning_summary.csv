@@ -1,0 +1,2 @@
+input_rows,input_columns,dropped_high_missing_columns,rows_removed_missing_required,duplicate_rows_removed,rows_removed_non_positive_value,output_rows,output_columns
+100000,22,[],100000,0,0,0,22
